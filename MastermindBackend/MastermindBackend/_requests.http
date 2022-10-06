@@ -1,0 +1,6 @@
+@baseUrl = https://localhost:5001
+
+
+################################################## WeatherForecast
+GET {{baseUrl}}/WeatherForecast
+#####
