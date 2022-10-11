@@ -29,17 +29,17 @@ public class GameController : ControllerBase
     }
     
     [HttpPost]
-    public GameStartResponse StartGame([FromBody] GameStartDto gameStartDto)
+    public GameDto StartGame([FromBody] GameStartDto gameStartDto)
     {
         Game newGame = _GameService.AddGame(gameStartDto);
-        return new GameStartResponse().CopyPropertiesFrom(newGame);
+        return new GameDto().CopyPropertiesFrom(newGame);
     }
     
     
     [HttpPost("attempt/{id}")]
-    public MakeGuessResponse MakeGuess(string id, [FromBody] MakeGuessDto makeGuess)
+    public Guess MakeGuess(string id, [FromBody] MakeGuessDto makeGuess)
     {
         Guess newGuess = _GameService.AddGuess(id, makeGuess);
-        return new MakeGuessResponse().CopyPropertiesFrom(newGuess);
+        return newGuess;
     }
 }

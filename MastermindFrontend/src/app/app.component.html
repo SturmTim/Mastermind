@@ -5,10 +5,10 @@
     Start new Game
     </span>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#logModal">Show Logs</button>
-    <form class="form-inline flex">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <div class="flex">
+      <input class="form-control mr-sm-2" type="text" placeholder="game id" aria-label="Search" [(ngModel)]="gameId">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="continueGame()">Continue</button>
+    </div>
   </nav>
   <div *ngIf="!inGame">
     <a>Start a new Game</a>
@@ -26,7 +26,7 @@
       <button type="button" class="btn btn-primary" id="startGame" [disabled]="!(name != '' && maxGuesses <= 12 &&  maxGuesses >= 6)" (click)="startNewGame()">Start new Game</button>
     </div>
   </div>
-  <app-gameboard *ngIf="inGame" [gameId]="gameId" [user]="name" [maxAttempts]="maxGuesses"></app-gameboard>
+  <app-gameboard *ngIf="inGame" [game]="game"></app-gameboard>
 </div>
 
 <div class="modal fade" id="logModal" tabindex="-1" aria-hidden="true">

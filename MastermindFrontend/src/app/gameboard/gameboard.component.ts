@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GameService, MakeGuessDto, MakeGuessResponse} from "../../openapi";
+import {GameDto, GameService, Guess} from "../../openapi";
 
 @Component({
   selector: 'app-gameboard',
@@ -8,13 +8,8 @@ import {GameService, MakeGuessDto, MakeGuessResponse} from "../../openapi";
 })
 export class GameboardComponent implements OnInit {
 
-  @Input() gameId = '';
-  @Input() user = '';
-  @Input() maxAttempts = 11;
-
+  @Input() game: GameDto = {id: '', user: '', maxGuesses: 0, guesses: []};
   colors: string[] = [];
-  guesses: MakeGuessDto[] = [{colors: ['','','','']}];
-  guessResponses: MakeGuessResponse[] = [];
 
   constructor(
     private gameService: GameService
@@ -22,13 +17,17 @@ export class GameboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameService.gameColorsGet().subscribe(x => this.colors = x);
+    if(!this.hasWon(this.game.guesses![this.game.guesses!.length - 1]) && !this.hasLost(this.game.guesses![this.game.guesses!.length - 1])){
+      this.game.guesses!.push({colors: ['','','',''], correctColorAndPosition: -1, correctColor: -1});
+      console.log(this.game);
+    }
   }
 
   submitAttempt() {
-    this.gameService.gameAttemptIdPut(this.gameId, this.guesses[this.guesses.length - 1]).subscribe(x => {
-      this.guessResponses.push(x);
-      if(!this.hasWon(this.guessResponses) && !this.hasLost(this.guessResponses)) {
-        this.guesses.push({colors: ['','','','']});
+    this.gameService.gameAttemptIdPost(this.game.id!, this.game.guesses![this.game.guesses!.length - 1]).subscribe(x => {
+      this.game.guesses![this.game.guesses!.length - 1] = x;
+      if(!this.hasWon(x) && !this.hasLost(x)) {
+        this.game.guesses!.push({colors: ['','','',''], correctColorAndPosition: -1, correctColor: -1});
         this.gameService.gameColorsGet().subscribe(x => this.colors = x);
       }
     });
@@ -39,16 +38,15 @@ export class GameboardComponent implements OnInit {
   }
 
   changeColor(number: number, color: string) {
-    this.guesses[this.guesses.length - 1].colors![number] = color;
+    this.game.guesses![this.game.guesses!.length - 1].colors![number] = color;
     this.colors.splice(this.colors.indexOf(color), 1);
   }
 
-  hasWon(makeGuessResponses: MakeGuessResponse[]) {
-    return makeGuessResponses[makeGuessResponses.length - 1] != null && makeGuessResponses[makeGuessResponses.length - 1]!.correctColorAndPosition == 4;
+  hasWon(guess: Guess) {
+    return guess != null && guess.correctColorAndPosition == 4;
 
   }
-  hasLost(makeGuessResponses: MakeGuessResponse[]) {
-    return makeGuessResponses.length == this.maxAttempts && makeGuessResponses[makeGuessResponses.length - 1]!.correctColorAndPosition != 4;
-
+  hasLost(guess: Guess) {
+    return guess != null && this.game.guesses?.length == this.game.maxGuesses && guess.correctColorAndPosition != 4;
   }
 }

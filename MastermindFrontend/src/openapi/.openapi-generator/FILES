@@ -7,10 +7,10 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/gameDto.ts
 model/gameStartDto.ts
-model/gameStartResponse.ts
+model/guess.ts
 model/makeGuessDto.ts
-model/makeGuessResponse.ts
 model/models.ts
 param.ts
 variables.ts
