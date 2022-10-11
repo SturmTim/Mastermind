@@ -1,6 +1,23 @@
-@baseUrl = https://localhost:5001
+@baseUrl = http://localhost:5000
 
 
-################################################## WeatherForecast
-GET {{baseUrl}}/WeatherForecast
+################################################## Game
+GET {{baseUrl}}/Game/abc
+#####
+GET {{baseUrl}}/Game/Colors
+#####
+POST {{baseUrl}}/Game
+Content-type: application/json
+
+{
+   "user": "abc",
+   "maxGuesses": 1
+}
+#####
+POST {{baseUrl}}/Game/attempt/abc
+Content-type: application/json
+
+{
+   "colors": "xxx"
+}
 #####

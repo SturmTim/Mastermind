@@ -1,0 +1,18 @@
+<div>
+  <label class="padding-5">Hi {{user}}! Your game Id is {{gameId}}</label>
+  <div class="col flex border-bottom padding-5" *ngFor="let guess of guesses">
+    <label>{{guesses.indexOf(guess) + 1}}. Attempt ({{maxAttempts - (guesses.indexOf(guess) + 1)}} left):</label>
+    <app-attempt [availableColors]="colors" [selectedColor]="guess.colors![0]" (attempt)="changeColor(0, $event)"></app-attempt>
+    <app-attempt [availableColors]="colors" [selectedColor]="guess.colors![1]" (attempt)="changeColor(1, $event)"></app-attempt>
+    <app-attempt [availableColors]="colors" [selectedColor]="guess.colors![2]" (attempt)="changeColor(2, $event)"></app-attempt>
+    <app-attempt [availableColors]="colors" [selectedColor]="guess.colors![3]" (attempt)="changeColor(3, $event)"></app-attempt>
+    <button class="btn btn-primary" [disabled]="!allColorsSelected(guess.colors!)" *ngIf="guessResponses[guesses.indexOf(guess)] == null" (click)="submitAttempt()">Submit</button>
+    <div class="row" *ngIf="guessResponses[guesses.indexOf(guess)] != null">
+      <label>Correct color: {{guessResponses[guesses.indexOf(guess)]!.correctColor}}</label>
+      <label>Correct color and position: {{guessResponses[guesses.indexOf(guess)]!.correctColorAndPosition}}</label>
+    </div>
+  </div>
+  <label *ngIf="hasWon(guessResponses)">Great, you solved the pattern</label>
+  <label *ngIf="hasLost(guessResponses)">You are pretty bad, learn how to play this game you *****</label>
+  <label></label>
+</div>

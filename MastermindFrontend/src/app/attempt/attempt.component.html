@@ -1,0 +1,5 @@
+<select class="width-100"  *ngIf="selectedColor == ''" [(ngModel)]="selectedColor" (ngModelChange)="colorSelected(selectedColor)">
+  <option *ngFor="let color of availableColors" [style.background-color]="color" [value]="color"></option>
+</select>
+<div class="width-100" *ngIf="selectedColor != ''" [appAppChosenColor]="selectedColor">
+</div>

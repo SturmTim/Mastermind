@@ -1,0 +1,16 @@
+.gitignore
+README.md
+api.module.ts
+api/api.ts
+api/game.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/gameStartDto.ts
+model/gameStartResponse.ts
+model/makeGuessDto.ts
+model/makeGuessResponse.ts
+model/models.ts
+param.ts
+variables.ts

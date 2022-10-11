@@ -5,6 +5,7 @@
 //----------------------------------------
 
 using GrueneisR.RestClientGenerator;
+using MastermindBackend.Services;
 using Microsoft.OpenApi.Models;
 
 string corsKey = "_myAllowSpecificOrigins";
@@ -33,6 +34,7 @@ builder.Services
 	  .SetAction($"swagger/{swaggerVersion}/swagger.json")
 	  //.EnableLogging()
   );
+builder.Services.AddSingleton<GameService>();
 #endregion
 
 var app = builder.Build();
